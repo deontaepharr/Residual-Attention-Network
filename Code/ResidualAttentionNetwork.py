@@ -1,7 +1,7 @@
-from tensorflow.keras.layers import Input, Conv2D, Lambda, MaxPool2D, UpSampling2D, GlobalAveragePooling2D, ZeroPadding2D
-from tensorflow.keras.layers import Activation, Flatten, Dense, Add, Multiply, BatchNormalization
+from keras.layers import Input, Conv2D, Lambda, MaxPool2D, UpSampling2D, AveragePooling2D, ZeroPadding2D
+from keras.layers import Activation, Flatten, Dense, Add, Multiply, BatchNormalization
 
-from tensorflow.keras.models import Model
+from keras.models import Model
 
 # Todo: Make scalable/all-encompassing
 class ResidualAttentionNetwork():
@@ -39,22 +39,22 @@ class ResidualAttentionNetwork():
         max_pool_layer_1 = self.max_pool_layer(conv_layer_1)
 
         # Residual Unit then Attention Module #1
-        res_unit_1 = self.residual_unit(max_pool_layer_1, filters=[64, 64, 256])
-        att_mod_1 = self.attention_module(res_unit_1, filters=[64, 64, 256])
+        res_unit_1 = self.residual_unit(max_pool_layer_1, filters=[32, 32, 64])
+        att_mod_1 = self.attention_module(res_unit_1, filters=[32, 32, 64])
         
         # Residual Unit then Attention Module #2
-        res_unit_2 = self.residual_unit(att_mod_1, filters=[128, 128, 512])
-        att_mod_2 = self.attention_module(res_unit_2, filters=[128, 128, 512])
+        res_unit_2 = self.residual_unit(att_mod_1, filters=[32, 32, 64])
+        att_mod_2 = self.attention_module(res_unit_2, filters=[32, 32, 64])
 
         # Residual Unit then Attention Module #3
-        res_unit_3 = self.residual_unit(att_mod_2, filters=[256, 256, 1024])
-        att_mod_3 = self.attention_module(res_unit_3, filters=[256, 256, 1024])
+        res_unit_3 = self.residual_unit(att_mod_2, filters=[32, 32, 64])
+        att_mod_3 = self.attention_module(res_unit_3, filters=[32, 32, 64])
 
         # Ending it all
-        res_unit_end_1 = self.residual_unit(att_mod_3, filters=[512, 512, 2048])
-        res_unit_end_2 = self.residual_unit(res_unit_end_1, filters=[512, 512, 2048])
-        res_unit_end_3 = self.residual_unit(res_unit_end_2, filters=[512, 512, 2048])
-        res_unit_end_4 = self.residual_unit(res_unit_end_3, filters=[512, 512, 2048])
+        res_unit_end_1 = self.residual_unit(att_mod_3, filters=[32, 32, 64])
+        res_unit_end_2 = self.residual_unit(res_unit_end_1, filters=[32, 32, 64])
+        res_unit_end_3 = self.residual_unit(res_unit_end_2, filters=[32, 32, 64])
+        res_unit_end_4 = self.residual_unit(res_unit_end_3, filters=[32, 32, 64])
 
         # Avg Pooling
         avg_pool_layer = self.avg_pool_layer(res_unit_end_4)
@@ -64,7 +64,7 @@ class ResidualAttentionNetwork():
 
         # FC Layer for prediction
         fully_connected_layers = Dense(self.n_classes, activation='softmax')(flatten_op)
-
+         
         # Fully constructed model
         model = Model(inputs=input_data, outputs=fully_connected_layers)
         
@@ -215,8 +215,7 @@ class ResidualAttentionNetwork():
                          padding='same')(pool_input_data)
 
     def avg_pool_layer(self, pool_input_data, pool_size=(2, 2), strides=(2, 2)):
-        return GlobalAveragePooling2D()(pool_input_data)
+        return AveragePooling2D(pool_size=pool_size, strides=strides)(pool_input_data)
     
     def upsampling_layer(self, upsampling_input_data, size=(2, 2), interpolation='bilinear'):
-        return UpSampling2D(size=size,
-                            interpolation=interpolation)(upsampling_input_data)
+        return UpSampling2D(size=size)(upsampling_input_data)
