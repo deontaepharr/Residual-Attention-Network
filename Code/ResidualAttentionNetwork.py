@@ -217,5 +217,5 @@ class ResidualAttentionNetwork():
     def avg_pool_layer(self, pool_input_data, pool_size=(2, 2), strides=(2, 2)):
         return AveragePooling2D(pool_size=pool_size, strides=strides)(pool_input_data)
     
-    def upsampling_layer(self, upsampling_input_data, size=(2, 2), interpolation='bilinear'):
+    def upsampling_layer(self, upsampling_input_data, size=(2, 2)):
         return UpSampling2D(size=size)(upsampling_input_data)
