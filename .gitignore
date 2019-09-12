@@ -1,3 +1,5 @@
 .ipynb_checkpoints/Residual Attention Network Keras Implementation -checkpoint.ipynb
 .DS_Store
 Code/__pycache__/ResidualAttentionNetwork.cpython-36.pyc
+Notebooks/.ipynb_checkpoints/Residual Attention Network Keras Implementation-checkpoint.ipynb
+*.pyc
