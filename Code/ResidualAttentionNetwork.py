@@ -54,7 +54,7 @@ class ResidualAttentionNetwork():
         att_mod_3 = self.attention_module(res_unit_3, filters=[32, 64, 128])
 
         # Ending it all
-        res_unit_end_1 = self.residual_unit(att_mod_1, filters=[32, 32, 64])
+        res_unit_end_1 = self.residual_unit(att_mod_3, filters=[32, 32, 64])
         res_unit_end_2 = self.residual_unit(res_unit_end_1, filters=[32, 32, 64])
         res_unit_end_3 = self.residual_unit(res_unit_end_2, filters=[32, 32, 64])
         res_unit_end_4 = self.residual_unit(res_unit_end_3, filters=[32, 32, 64])
