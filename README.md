@@ -1,5 +1,7 @@
 # Residual Attention Networks
 
+** __The progress thus far are preliminary results. I am still in the process of rigorous validation of the efficiency of this deep learning model__ **
+
 I came across this network while studying about Attention mechanisms and found the architecture really intriguing. After reading the paper, "Residual Attention Network for Image Classification", by Fei Wang et al., I put myself to task to implement it to understand the network more in-depth.
 <br>
 
